@@ -23,20 +23,17 @@
 				<div>${message}</div>
 			</c:if>
 			<form name='login' action="<c:url value='/login' />" method='POST'>
-				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-				<span id="reauth-email" class="reauth-email">
-				</span> 
-				<input type="text" name="username"
-					   class="form-control" 
-					   placeholder=<fmt:message key="user.name"/>
-					   required autofocus> 
-			    <input type="password" name="password"
-					   class="form-control" placeholder=<fmt:message key="password"/>
-					   required>
-				
-				<div id="remember" class="checkbox">
-				</div>
-				<button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">
+				<input type="hidden" name="${_csrf.parameterName}"
+					value="${_csrf.token}" /> <span id="reauth-email"
+					class="reauth-email"> </span> <input type="text" name="username"
+					class="form-control" placeholder="<fmt:message key="user.name"/>"
+					required autofocus> <input type="password" name="password"
+					class="form-control" placeholder=<fmt:message key="password"/>
+					required>
+
+				<div id="remember" class="checkbox"></div>
+				<button class="btn btn-lg btn-primary btn-block btn-signin"
+					type="submit">
 					<fmt:message key="sign.in" />
 				</button>
 			</form>

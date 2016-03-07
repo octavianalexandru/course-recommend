@@ -18,6 +18,7 @@ public class FileUploadService {
 
 	private static final String HAS_PHOTO = "SELECT COUNT(USERNAME) FROM userPhoto WHERE userName = ?";
 	private static final String GET_PHOTO = "SELECT photo FROM userPhoto WHERE userName = ?";
+	private static final String GET_COVER = "SELECT cover FROM course WHERE id = ?";
 	private static final String INSERT_PHOTO = "INSERT INTO userPhoto(USERNAME,PHOTO) " + "VALUES(?,?)";
 	private static final String UPDATE_PHOTO = "UPDATE userPhoto SET photo = ? WHERE userName = ?";
 
@@ -31,8 +32,12 @@ public class FileUploadService {
 		else
 			jdbcTemplate.update(INSERT_PHOTO, username, photo);
 	}
-	
-	public byte[] getPhoto(String username){
+
+	public byte[] getPhoto(String username) {
 		return jdbcTemplate.queryForObject(GET_PHOTO, new Object[] { username }, byte[].class);
+	}
+
+	public byte[] getCover(int id) {
+		return jdbcTemplate.queryForObject(GET_COVER, new Object[] { id }, byte[].class);
 	}
 }

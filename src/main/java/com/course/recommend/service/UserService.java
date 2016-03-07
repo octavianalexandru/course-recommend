@@ -30,10 +30,12 @@ public class UserService {
 
 	private static final String INSERT_USER = "INSERT INTO USERS(USERNAME, PASSWORD, ENABLED, FIRSTNAME, LASTNAME, EMAIL, ROLE) "
 			+ "VALUES(?,?,?,?,?,?,?)";
-	
+
 	private static final String UPDATE_PHOTO = "UPDATE userPhoto SET photo = ? WHERE userName = ?";
-	
-	private static final String UPDATE_USER = "UPDATE users SET firstname = ?, lastname = ?, email = ?, userName = ? WHERE userName = ?";
+
+	private static final String UPDATE_USER = "UPDATE users SET firstname = ?, lastname = ?, email = ? WHERE userName = ?";
+
+	private static final String UPDATE_PASSWORD = "UPDATE users SET password = ? WHERE userName = ?";
 
 	public CustomUser getUser(String username) {
 		CustomUser user = (CustomUser) jdbcTemplate.queryForObject(GET_USER, new Object[] { username },
@@ -54,20 +56,24 @@ public class UserService {
 		jdbcTemplate.update(INSERT_USER, user.getUsername(), user.getPassword(), 1, user.getFirstname(),
 				user.getLastname(), user.getEmail(), user.getAuthorities().iterator().next().toString());
 	}
-	
-	private void updatePhoto(String userName, byte[] photo){
+
+	private void updatePhoto(String userName, byte[] photo) {
 		jdbcTemplate.update(UPDATE_PHOTO, photo, userName);
 	}
-	
-	public void updateUser(String firstName, String lastName, String email, String userName, byte[] photo, CustomUser currentUser){
-		String newFirstName,newLastName,newEmail,newUserName;
-		
-		if(userName != null || !userName.trim().equals(""))
-			newUserName = userName;
-		else
-			newUserName = currentUser.getUsername();
-		
-		//TODO CHECK OTHER FIELDS 
+
+	public void updateUser(String firstName, String lastName, String email, byte[] photo, CustomUser currentUser) {
+
+		if (photo != null)
+			updatePhoto(currentUser.getUsername(), photo);
+
+		jdbcTemplate.update(UPDATE_USER, firstName, lastName, email, currentUser.getUsername());
+
+	}
+
+	public void updatePassword(String userName, String newPassword) {
+
+		jdbcTemplate.update(UPDATE_PASSWORD, newPassword, userName);
+
 	}
 
 }

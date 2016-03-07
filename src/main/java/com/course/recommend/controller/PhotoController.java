@@ -36,4 +36,20 @@ public class PhotoController {
 			return null;
 		}
 	}
+	
+	@RequestMapping(value = "/cover/{courseId}")
+	@ResponseBody
+	public HttpEntity<byte[]> getCover(@PathVariable int courseId) {
+
+		byte[] imageByte = null;
+
+		try {
+			imageByte = fileUploadService.getCover(courseId);
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.IMAGE_JPEG);
+			return new HttpEntity<byte[]>(imageByte, headers);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }
