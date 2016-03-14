@@ -1,9 +1,13 @@
 package com.course.recommend.config;
 
+import java.util.Properties;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -40,5 +44,20 @@ public class CourseApplicationConfig {
 		CommonsMultipartResolver resolver = new CommonsMultipartResolver();
 		resolver.setDefaultEncoding("utf-8");
 		return resolver;
+	}
+	
+	@Bean(name = "mailSender")
+	public JavaMailSender mailSender() {
+	    JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+	    Properties mailProperties = new Properties();
+	    mailProperties.put("mail.smtp.auth", true);
+	    mailProperties.put("mail.smtp.starttls.enable", true);
+	    mailSender.setJavaMailProperties(mailProperties);
+	    mailSender.setHost("localhost");
+	    mailSender.setPort(25);
+	    mailSender.setProtocol("smtp");
+	    mailSender.setUsername("Administrator");
+	    mailSender.setPassword("octavian");
+	    return mailSender;
 	}
 }

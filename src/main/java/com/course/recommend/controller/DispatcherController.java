@@ -1,5 +1,8 @@
 package com.course.recommend.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -8,9 +11,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.course.recommend.domain.CustomUser;
+import com.course.recommend.domain.Email;
+import com.course.recommend.service.MailService;
 
 @Controller
 public class DispatcherController {
+
+	private final MailService mailService;
+
+	@Autowired
+	public DispatcherController(MailService mailService) {
+		this.mailService = mailService;
+
+	}
 
 	@RequestMapping(value = "/dispatch", method = RequestMethod.GET)
 	public ModelAndView dispatch() {
@@ -26,9 +39,11 @@ public class DispatcherController {
 
 		if (authorized)
 			model.setViewName("admin");
-		else
+		else{
+			List<Email> emails = mailService.getLatestEmails(user.getUsername());
+			model.addObject("emails", emails);
 			model.setViewName("user");
-
+		}
 		return model;
 	}
 }

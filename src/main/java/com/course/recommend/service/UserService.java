@@ -3,6 +3,7 @@ package com.course.recommend.service;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -36,6 +37,9 @@ public class UserService {
 	private static final String UPDATE_USER = "UPDATE users SET firstname = ?, lastname = ?, email = ? WHERE userName = ?";
 
 	private static final String UPDATE_PASSWORD = "UPDATE users SET password = ? WHERE userName = ?";
+
+	private static final String GET_USERS_BY_TYPE = "SELECT u.userName,u.password,u.firstName,u.lastName,u.email,u.role,up.photo "
+			+ "FROM users u LEFT JOIN userPhoto up ON u.userName = up.userName " + "WHERE u.role = ? ";
 
 	public CustomUser getUser(String username) {
 		CustomUser user = (CustomUser) jdbcTemplate.queryForObject(GET_USER, new Object[] { username },
@@ -74,6 +78,19 @@ public class UserService {
 
 		jdbcTemplate.update(UPDATE_PASSWORD, newPassword, userName);
 
+	}
+
+	public List<CustomUser> getUsersByRole(String role) {
+		List<CustomUser> students = jdbcTemplate.query(GET_USERS_BY_TYPE, new Object[] { role }, new RowMapper<CustomUser>() {
+			public CustomUser mapRow(ResultSet rs, int i) throws SQLException {
+				GrantedAuthority authority = new SimpleGrantedAuthority(rs.getString("role"));
+				CustomUser user = new CustomUser(rs.getString("username"), rs.getString("password"),
+						rs.getString("firstname"), rs.getString("lastname"), rs.getString("email"),
+						rs.getBytes("photo"), Arrays.asList(authority));
+				return user;
+			}
+		});
+		return students;
 	}
 
 }

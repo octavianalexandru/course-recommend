@@ -1,6 +1,7 @@
 package com.course.recommend.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,16 +15,20 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.course.recommend.domain.CustomUser;
+import com.course.recommend.domain.Email;
+import com.course.recommend.service.MailService;
 import com.course.recommend.service.UserService;
 
 @Controller
 public class UserProfileController {
 
 	private final UserService userService;
-
+	private final MailService mailService;
+	
 	@Autowired
-	public UserProfileController(UserService userService) {
+	public UserProfileController(UserService userService,MailService mailService) {
 		this.userService = userService;
+		this.mailService = mailService;
 
 	}
 
@@ -34,6 +39,10 @@ public class UserProfileController {
 		CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 		model.addObject("user", user);
+		
+		List<Email> emails = mailService.getLatestEmails(user.getUsername());
+
+		model.addObject("emails", emails);
 
 		model.setViewName("profile/viewprofile");
 
@@ -47,6 +56,10 @@ public class UserProfileController {
 		CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 		model.addObject("user", user);
+		
+		List<Email> emails = mailService.getLatestEmails(user.getUsername());
+
+		model.addObject("emails", emails);
 
 		model.setViewName("profile/editprofile");
 
@@ -60,6 +73,10 @@ public class UserProfileController {
 		CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 		model.addObject("user", user);
+		
+		List<Email> emails = mailService.getLatestEmails(user.getUsername());
+
+		model.addObject("emails", emails);
 
 		model.setViewName("profile/changepassword");
 
