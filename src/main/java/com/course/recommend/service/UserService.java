@@ -41,6 +41,8 @@ public class UserService {
 	private static final String GET_USERS_BY_TYPE = "SELECT u.userName,u.password,u.firstName,u.lastName,u.email,u.role,up.photo "
 			+ "FROM users u LEFT JOIN userPhoto up ON u.userName = up.userName " + "WHERE u.role = ? ";
 
+	private static final String GET_FULL_NAME_BY_USERNAME = "SELECT firstName||' '||lastName FROM users WHERE userName = ?";
+
 	public CustomUser getUser(String username) {
 		CustomUser user = (CustomUser) jdbcTemplate.queryForObject(GET_USER, new Object[] { username },
 				new RowMapper<CustomUser>() {
@@ -81,16 +83,21 @@ public class UserService {
 	}
 
 	public List<CustomUser> getUsersByRole(String role) {
-		List<CustomUser> students = jdbcTemplate.query(GET_USERS_BY_TYPE, new Object[] { role }, new RowMapper<CustomUser>() {
-			public CustomUser mapRow(ResultSet rs, int i) throws SQLException {
-				GrantedAuthority authority = new SimpleGrantedAuthority(rs.getString("role"));
-				CustomUser user = new CustomUser(rs.getString("username"), rs.getString("password"),
-						rs.getString("firstname"), rs.getString("lastname"), rs.getString("email"),
-						rs.getBytes("photo"), Arrays.asList(authority));
-				return user;
-			}
-		});
+		List<CustomUser> students = jdbcTemplate.query(GET_USERS_BY_TYPE, new Object[] { role },
+				new RowMapper<CustomUser>() {
+					public CustomUser mapRow(ResultSet rs, int i) throws SQLException {
+						GrantedAuthority authority = new SimpleGrantedAuthority(rs.getString("role"));
+						CustomUser user = new CustomUser(rs.getString("username"), rs.getString("password"),
+								rs.getString("firstname"), rs.getString("lastname"), rs.getString("email"),
+								rs.getBytes("photo"), Arrays.asList(authority));
+						return user;
+					}
+				});
 		return students;
+	}
+
+	public String getFullNameByUserName(String userName) {
+		return jdbcTemplate.queryForObject(GET_FULL_NAME_BY_USERNAME, new Object[] { userName }, String.class);
 	}
 
 }
