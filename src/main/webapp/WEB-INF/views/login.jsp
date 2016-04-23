@@ -9,7 +9,7 @@
 <link href="resources/css/login.css" rel="stylesheet">
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+
 <body onload='document.login.username.focus();'>
 	<div class="container">
 		<div class="card card-container">
@@ -30,7 +30,6 @@
 					required autofocus> <input type="password" name="password"
 					class="form-control" placeholder=<fmt:message key="password"/>
 					required>
-
 				<div id="remember" class="checkbox"></div>
 				<button class="btn btn-lg btn-primary btn-block btn-signin"
 					type="submit">
@@ -48,6 +47,6 @@
 	<script src="resources/js/jquery.js"></script>
 	<script src="resources/js/bootstrap.min.js"></script>
 </body>
-</body>
+
 
 </html>

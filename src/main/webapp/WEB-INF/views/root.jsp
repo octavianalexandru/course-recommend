@@ -22,8 +22,11 @@
 						</h3>
 						<hr class="intro-divider">
 						<ul class="list-inline intro-social-buttons">
-							<li><a href="${pageContext.request.contextPath}/login"
-								class="btn btn-default btn-lg"><fmt:message key="login" /></a></li>
+							<li>
+								<a href="${pageContext.request.contextPath}/login" class="btn btn-default btn-lg">
+									<fmt:message key="login" />
+								</a>
+							</li>
 						</ul>
 					</div>
 				</div>

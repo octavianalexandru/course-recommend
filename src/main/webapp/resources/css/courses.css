@@ -1,0 +1,37 @@
+.rounded-div {
+	border: 2px solid #a1a1a1;
+	padding: 15px 15px;
+	margin-left: 30px;
+	margin-top: 30px;
+	background: #fff;
+	width: 80%;
+	height: 150px;
+	border-radius: 25px;
+}
+
+.rounded-div img {
+	float: left;
+	position: relative;
+	width: auto;
+	max-height: 100%;
+	max-width: 100%;
+	padding-right: 15px;
+}
+
+.rounded-div h3{
+	position: relative;
+	width: auto;
+	margin-top: 5px;
+}
+
+.rounded-div button{
+	margin-top: 4px;
+}
+.rounded-div span{
+	margin-top: 5px;
+}
+
+.myform{
+	float: left; 
+	margin-right: 5px;
+}

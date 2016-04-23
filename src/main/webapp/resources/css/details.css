@@ -1,0 +1,20 @@
+.rounded-div {
+	border: 2px solid #a1a1a1;
+	padding: 15px 15px;
+	margin-left: 30px;
+	margin-top: 30px;
+	background: #fff;
+	width: 70%;
+	height: auto;
+	position: absolute;
+	border-radius: 25px;
+}
+
+.rounded-div img {
+	float: left;
+	position: relative;
+	width: auto;
+	max-height: 100%;
+	max-width: 100%;
+	padding-right: 15px;
+}

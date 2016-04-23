@@ -1,0 +1,9 @@
+.search-box {
+	margin-top: 5%;
+	margin-bottom: 5%;
+	border-color: gray;
+	background-color: gray;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
