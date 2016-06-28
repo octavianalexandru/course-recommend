@@ -14,6 +14,9 @@
 			<jsp:param value="${user}" name="user" />
 		</jsp:include>
 		<div id="page-wrapper">
+			<c:if test="${empty courses}">
+				<h1><c:out value="There are no courses submitted by you yet"/></h1> 
+			</c:if>
 			<c:forEach items="${courses}" var="course">
 				<div class="row">
 					<div class="rounded-div">

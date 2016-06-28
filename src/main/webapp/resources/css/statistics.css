@@ -13,8 +13,8 @@
 	position: relative;
 	padding-bottom: 10px;
 	padding-top: 10px;
-	border-left: thin solid #cccccc;
-	border-bottom: thin solid #cccccc;
+	border-left: thin solid #0F5959;
+	border-bottom: thin solid #0F5959;
 }
 .chart-row {
 	height: 25px;
@@ -42,7 +42,7 @@
 .heading {
 	font-size: 8pt;
 	font-weight: bold;
-	color: #aaaaaa;
+	color: #0F5959;
 	height: 19px;
 }
 .heading-left {
@@ -68,7 +68,7 @@
 .chart-label {
 	font-size: 7pt;
 	font-weight: bold;
-	color: #aaaaaa;
+	color: #0F5959;
 	position: absolute;
 	bottom: -10px;
 	z-index:0;
@@ -78,7 +78,7 @@
 	position: absolute;
 	bottom: 0;
 	z-index:-1;
-	background-color: #cccccc;
+	background-color: #0F5959;
 	width: 1px;
 	height: 4px;
 }

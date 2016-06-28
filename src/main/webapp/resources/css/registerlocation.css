@@ -1,0 +1,13 @@
+@CHARSET "ISO-8859-1";
+body, html {
+	padding-top: 5%;
+	
+	background: url(../img/intro-bg.jpg) no-repeat center center fixed;
+	background-size: cover;
+	height: 100%;
+}
+
+#radiobox{
+	margin-left:5%;
+}
+

@@ -28,10 +28,21 @@
 		<jsp:include page="template/header.jsp">
 			<jsp:param value="${user}" name="user" />
 		</jsp:include>
+	</div>
+	
+	<div class="container" style="padding-left:15%">
+		<div class="row" style="padding-bottom:3%">
+			<div class="col-md-12">
+				<h1>
+					<fmt:message key="newadditions" />
+				</h1>
+			</div>
+		</div>
+		
 		<div id="page-wrapper">
 			<c:forEach items="${newAddedCoursesWithDates}" var="mapEntry" varStatus="j">
 				<div class="row">
-					<h1><c:out value ="${mapEntry.key}"/></h1>
+					<h2><c:out value ="${mapEntry.key}"/></h2>
 				</div>
 				
 				<c:set value="${mapEntry.value}" var="mapValue" />

@@ -48,6 +48,7 @@
 							weeks
 							
 						</p>
+					<sec:authorize access="hasRole('ROLE_USER')">
 					<form id="ratingform" action="<c:url value = '/ratecourse'/>"
 									method="post" class="col-sm-6">
 
@@ -70,6 +71,7 @@
 									</button>
 								</div>
 					</div>
+					</sec:authorize>
 					<sec:authorize access="hasRole('ROLE_USER')">
 						<div class="pull-right">
 							<c:choose>

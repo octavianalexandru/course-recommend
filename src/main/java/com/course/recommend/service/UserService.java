@@ -43,6 +43,12 @@ public class UserService {
 
 	private static final String GET_FULL_NAME_BY_USERNAME = "SELECT firstName||' '||lastName FROM users WHERE userName = ?";
 
+	private static final String SET_USER_LOCATION = "UPDATE users SET locationid = ? WHERE username = ?";
+	
+	private static final String SET_EDUCATIONAL_STAGE = "UPDATE users SET educationalstageid = ? WHERE username = ?";
+	
+	private static final String SET_AGE_CATEGORY = "UPDATE users SET agecategoryid = ? WHERE USERNAME = ?";
+	
 	public CustomUser getUser(String username) {
 		CustomUser user = (CustomUser) jdbcTemplate.queryForObject(GET_USER, new Object[] { username },
 				new RowMapper<CustomUser>() {
@@ -100,4 +106,15 @@ public class UserService {
 		return jdbcTemplate.queryForObject(GET_FULL_NAME_BY_USERNAME, new Object[] { userName }, String.class);
 	}
 
+	public void setLocation(String userName, int locationid){
+		jdbcTemplate.update(SET_USER_LOCATION,new Object[]{locationid,userName});
+	}
+	
+	public void setEducationalStage(String userName, int educationalStageId){
+		jdbcTemplate.update(SET_EDUCATIONAL_STAGE,new Object[]{educationalStageId,userName});
+	}
+	
+	public void setAgeCategory(String userName, int ageCategoryId){
+		jdbcTemplate.update(SET_AGE_CATEGORY,new Object[]{ageCategoryId,userName});
+	}
 }

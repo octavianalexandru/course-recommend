@@ -7,7 +7,7 @@
 /* Global Styles */
 body {
 	margin-top: 100px;
-	background-color: #222;
+	background-color: #BFD4D9;
 }
 
 @media ( min-width :768px) {
@@ -23,7 +23,7 @@ body {
 #page-wrapper {
 	width: 100%;
 	padding: 0;
-	background-color: #222;
+	background-color: #BFD4D9;
 }
 
 .huge {
@@ -54,7 +54,7 @@ body {
 	padding-top: 15px;
 	padding-bottom: 15px;
 	line-height: 20px;
-	color: #999;
+	color: #D93240;
 }
 
 .top-nav>li>a:hover, .top-nav>li>a:focus, .top-nav>.open>a, .top-nav>.open>a:hover,
@@ -115,7 +115,7 @@ ul.alert-dropdown {
 		border: none;
 		border-radius: 0;
 		overflow-y: auto;
-		background-color: #222;
+		background-color: #BFD4D9;
 		bottom: 0;
 		overflow-x: hidden;
 		padding-bottom: 40px;
@@ -179,11 +179,11 @@ ul.alert-dropdown {
 }
 
 .panel-red {
-	border-color: #d9534f;
+	border-color: #0F5959;
 }
 
 .panel-red>.panel-heading {
-	border-color: #d9534f;
+	border-color: #0F5959;
 	color: #fff;
 	background-color: #d9534f;
 }

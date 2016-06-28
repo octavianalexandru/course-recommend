@@ -113,9 +113,10 @@
 			</sec:authorize>
 			
 			<sec:authorize access="hasRole('ROLE_USER')">
+				<li><a href="${pageContext.request.contextPath}/recommendedforyou"><i
+						class="fa fa-fw fa-table"></i> <fmt:message key="recommendedforyou" /></a></li>
 				<li><a href="${pageContext.request.contextPath}/newadditions"><i
 						class="fa fa-fw fa-table"></i> <fmt:message key="newadditions" /></a></li>
-				
 			</sec:authorize>
 			<sec:authorize access="hasRole('ROLE_ADMIN')">
 				<li><a href="${pageContext.request.contextPath}/statistics"><i

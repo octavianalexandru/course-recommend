@@ -81,11 +81,63 @@ public class RegisterController {
 		if (errors.isEmpty()) {
 			userService.insertUser(user);
 			fileUploadService.insertPhoto(bytes, user.getUsername());
-			model.setViewName("login");
+			if(role.equals("ROLE_TEACHER")){
+				model.setViewName("login");
+			}
+			else if(role.equals("ROLE_USER")){
+				model.addObject("username", userName);
+				model.setViewName("registerlocation");
+			}
 		} else {
 			model.addObject("error", errors);
 			model.setViewName("register");
 		}
 		return model;
 	}
+	
+	
+	
+	
+	@RequestMapping(value = "/registerlocation", method = RequestMethod.POST)
+	public ModelAndView registerUserLocation(HttpServletRequest request,
+			@RequestParam(value = "username", required = false) String username,
+			@RequestParam(value= "locationId", required = false) int locationId
+			) {
+		ModelAndView model = new ModelAndView();
+		
+		userService.setLocation(username,locationId);
+		
+		model.addObject("username", username);
+		model.setViewName("registereducationalstage");
+		return model;
+	}
+	
+	@RequestMapping(value = "/registereducationalstage", method = RequestMethod.POST)
+	public ModelAndView registerEducationalStage(HttpServletRequest request,
+			@RequestParam(value = "username", required = false) String username,
+			@RequestParam(value= "educationalStageId", required = false) int educationalStageId
+			) {
+		ModelAndView model = new ModelAndView();
+		
+		userService.setEducationalStage(username,educationalStageId);
+		
+		model.addObject("username",username);
+		model.setViewName("registerage");
+		return model;
+	}
+	
+	@RequestMapping(value = "/registerage", method = RequestMethod.POST)
+	public ModelAndView registerAge(HttpServletRequest request,
+			@RequestParam(value = "username", required = false) String username,
+			@RequestParam(value= "ageCategoryId", required = false) int ageCategoryId
+			) {
+		ModelAndView model = new ModelAndView();
+		
+		userService.setAgeCategory(username,ageCategoryId);
+		
+		model.setViewName("redirect:/login");
+		return model;
+	}
+	
+	
 }
