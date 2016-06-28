@@ -46,18 +46,5 @@ public class CourseApplicationConfig {
 		return resolver;
 	}
 	
-	@Bean(name = "mailSender")
-	public JavaMailSender mailSender() {
-	    JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-	    Properties mailProperties = new Properties();
-	    mailProperties.put("mail.smtp.auth", true);
-	    mailProperties.put("mail.smtp.starttls.enable", true);
-	    mailSender.setJavaMailProperties(mailProperties);
-	    mailSender.setHost("localhost");
-	    mailSender.setPort(25);
-	    mailSender.setProtocol("smtp");
-	    mailSender.setUsername("Administrator");
-	    mailSender.setPassword("octavian");
-	    return mailSender;
-	}
+	
 }

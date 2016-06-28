@@ -109,7 +109,7 @@
 				<div class="row">
 					<div class="col-lg-6 col-md-6">
 						<div id="bar_of_pies" data-sort="true" data-width="700"
-							class="jChart chart-sm" name="Courses per Type">
+							class="jChart chart-sm" name="Your Courses per Type">
 							<c:forEach items="${courseStatistics}" var="entry"
 								varStatus="loop">
 								<div class="define-chart-row" data-color="${colors.get(loop.index) }"

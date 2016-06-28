@@ -111,6 +111,12 @@
 				</form>
 
 			</sec:authorize>
+			
+			<sec:authorize access="hasRole('ROLE_USER')">
+				<li><a href="${pageContext.request.contextPath}/newadditions"><i
+						class="fa fa-fw fa-table"></i> <fmt:message key="newadditions" /></a></li>
+				
+			</sec:authorize>
 			<sec:authorize access="hasRole('ROLE_ADMIN')">
 				<li><a href="${pageContext.request.contextPath}/statistics"><i
 						class="fa fa-fw fa-dashboard"></i></i> <fmt:message key="statistics" /></a></li>
@@ -126,6 +132,8 @@
 				<li><a href="${pageContext.request.contextPath}/sendemail"><i
 						class="fa fa-envelope"></i> <fmt:message key="send.email" /></a></li>
 			</sec:authorize>
+			
+			
 		</ul>
 	</div>
 	<!-- /.navbar-collapse --> </nav>

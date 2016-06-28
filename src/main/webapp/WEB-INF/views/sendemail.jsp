@@ -15,6 +15,7 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-sm-3">
+					<p>Recipients</p>
 					<ul class="list-group" id="recipientList">
 						<c:forEach items="${students}" var="student">
 							<li class="list-group-item student" id="${student.username }">${student.firstname }
@@ -22,7 +23,7 @@
 						</c:forEach>
 					</ul>
 				</div>
-				<div class="col-sm-9" style="padding-top: 10%; padding-left: 15%;">
+				<div class="col-sm-9" style="padding-left: 20%;">
 
 					
 					<div class="col-lg-6">

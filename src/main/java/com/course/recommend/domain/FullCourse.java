@@ -14,8 +14,11 @@ public class FullCourse {
 	private Date startDate;
 	private Date endDate;
 	private byte[] cover;
+	private Date enteredDate;
+	
+	
 
-	public FullCourse(int id, int numberOfWeeks, String title, String description, byte[] cover, String userName, Date startDate, Date endDate, int courseTypeId, String courseTypeDescription) {
+	public FullCourse(int id, int numberOfWeeks, String title, String description, byte[] cover, String userName, Date startDate, Date endDate, int courseTypeId, String courseTypeDescription, Date enteredDate) {
 		super();
 		this.id = id;
 		this.numberOfWeeks = numberOfWeeks;
@@ -27,6 +30,15 @@ public class FullCourse {
 		this.endDate = endDate;
 		this.courseTypeDescription = courseTypeDescription;
 		this.courseTypeId = courseTypeId;
+		this.enteredDate = enteredDate;
+	}
+
+	public Date getEnteredDate() {
+		return enteredDate;
+	}
+
+	public void setEnteredDate(Date enteredDate) {
+		this.enteredDate = enteredDate;
 	}
 
 	public int getId() {
@@ -108,4 +120,7 @@ public class FullCourse {
 	public void setCourseTypeDescription(String courseTypeDescription) {
 		this.courseTypeDescription = courseTypeDescription;
 	}
+	
+
+	
 }

@@ -89,7 +89,7 @@ public class UserProfileController {
 			@RequestParam(value = "lastName", required = false) String lastName,
 			@RequestParam(value = "email", required = false) String email,
 			@RequestParam(value = "photo", required = false) MultipartFile photo) {
-
+		
 		byte[] bytes = null;
 
 		CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

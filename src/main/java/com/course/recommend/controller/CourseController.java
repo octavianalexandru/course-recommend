@@ -2,6 +2,8 @@ package com.course.recommend.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -39,7 +41,8 @@ public class CourseController {
 	private final RecommendService recommendService;
 	private final RegisterService registerService;
 	private final UserService userService;
-
+	
+	
 	@Autowired
 	public CourseController(CourseService courseService, CourseTypeService courseTypeService, MailService mailService,
 			RecommendService recommendService, RegisterService registerService, UserService userService) {
@@ -49,7 +52,6 @@ public class CourseController {
 		this.recommendService = recommendService;
 		this.registerService = registerService;
 		this.userService = userService;
-
 	}
 
 	@RequestMapping(value = "/courses", method = RequestMethod.GET)
@@ -58,7 +60,8 @@ public class CourseController {
 		ModelAndView model = new ModelAndView();
 
 		Map<String, List<FullCourse>> coursesByType = new TreeMap<String, List<FullCourse>>();
-
+		Map<Integer, Double> courseAverageRatings = new HashMap<Integer, Double>();
+		
 		CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 		List<FullCourse> allCourses = courseService.getAllCourses();
@@ -66,23 +69,37 @@ public class CourseController {
 		model.addObject("user", user);
 
 		List<CourseType> allTypes = courseTypeService.getAllTypes();
-
+		
+		Map<Integer,Integer> courseRatings = new HashMap<Integer,Integer>();
+		
 		for (int i = 0; i < allTypes.size(); i++)
 			coursesByType.put(allTypes.get(i).getDescription(), new ArrayList<FullCourse>());
 
-		for (int i = 0; i < allCourses.size(); i++)
+		for (int i = 0; i < allCourses.size(); i++){
 			coursesByType.get(allCourses.get(i).getCourseTypeDescription()).add(allCourses.get(i));
-
+			//courseAverageRatings.put(allCourses.get(i).getId(), courseService.getCourseAverageRating(allCourses.get(i).getId()));
+			courseRatings.put(allCourses.get(i).getId(),courseService.getCourseRating(user.getUsername(),allCourses.get(i).getId()));
+			
+		}
 		model.addObject("coursesByType", coursesByType);
-
+		
 		List<Email> emails = mailService.getLatestEmails(user.getUsername());
 
+		
+		
+		
+		model.addObject("ratings",courseRatings);
+		
+		//model.addObject("averageratings", courseAverageRatings);
+		
 		model.addObject("emails", emails);
-
+		
 		model.setViewName("course/courses");
 
 		return model;
 	}
+
+	
 
 	@RequestMapping(value = "/mycourses", method = RequestMethod.GET)
 	public ModelAndView getMyCourses() {
@@ -146,15 +163,16 @@ public class CourseController {
 		SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
 		java.util.Date start = null;
 		java.util.Date end = null;
+		java.util.Date dateEntered = new java.util.Date();
 		try {
 			start = format.parse(startDate);
 			end = format.parse(endDate);
 		} catch (Exception e) {
 		}
-
+		
 		FullCourse fullCourse = new FullCourse(0, numberOfWeeks, title, description, bytes, user.getUsername(),
 				new java.sql.Date(start.getTime()), new java.sql.Date(end.getTime()), courseTypeId,
-				courseTypeService.getTypeById(courseTypeId).getDescription());
+				courseTypeService.getTypeById(courseTypeId).getDescription(), new java.sql.Date(dateEntered.getTime()));
 
 		courseService.insertCourse(fullCourse);
 
@@ -187,7 +205,12 @@ public class CourseController {
 
 			recommendService.onClickTeacher(fullCourse.getUserName(), user.getUsername());
 		}
-
+		
+		
+		int courseRating=courseService.getCourseRating(user.getUsername(),courseId);
+		
+		model.addObject("courseRating",courseRating);
+		
 		model.addObject("user", user);
 
 		model.addObject("teacherName", teacherName);
@@ -258,7 +281,7 @@ public class CourseController {
 
 		FullCourse fullCourse = new FullCourse(courseId, numberOfWeeks, title, description, bytes, user.getUsername(),
 				new java.sql.Date(start.getTime()), new java.sql.Date(end.getTime()), courseTypeId,
-				courseTypeService.getTypeById(courseTypeId).getDescription());
+				courseTypeService.getTypeById(courseTypeId).getDescription(), null);
 
 		courseService.updateCourse(fullCourse);
 
@@ -297,5 +320,36 @@ public class CourseController {
 
 		return new ModelAndView("redirect:/dispatch");
 	}
-
+	
+	@RequestMapping(value = "/ratecourse", method = RequestMethod.POST)
+	public ModelAndView rateCourse(HttpServletRequest request,
+			@RequestParam(value = "rating", required = true) int rating,
+			@RequestParam(value= "courseId", required=true) int courseId){
+			
+		
+		CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		
+		
+		courseService.insertUpdateRating(user.getUsername(),courseId,rating);
+		
+		
+		return new ModelAndView("redirect:/courses");
+	}
+	
+	@RequestMapping(value = "/newadditions", method = RequestMethod.GET)
+	public ModelAndView newAdditions(HttpServletRequest request){
+		ModelAndView model = new ModelAndView();
+		
+		Map<Date, ArrayList<FullCourse>> newAddedCoursesWithDates = courseService.getNewAddedCourses();
+		
+		CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		
+		model.addObject("newAddedCoursesWithDates", newAddedCoursesWithDates);
+		model.setViewName("NewAdditions");
+		model.addObject("user", user);
+		
+		return model;
+	}
 }

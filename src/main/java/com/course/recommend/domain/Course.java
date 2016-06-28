@@ -8,6 +8,7 @@ public class Course {
 	private String description;
 	private String userName;
 	private byte[] cover;
+	
 
 	public Course(int id, int numberOfWeeks, String title, String description, byte[] cover, String userName) {
 		super();
@@ -17,6 +18,7 @@ public class Course {
 		this.description = description;
 		this.cover = cover;
 		this.userName = userName;
+		
 	}
 
 	public int getId() {
@@ -66,5 +68,6 @@ public class Course {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+	
 
 }
