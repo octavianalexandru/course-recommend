@@ -35,7 +35,10 @@ public class CourseService {
 
 	private static final String GET_ID = "SELECT NVL(MAX(id),0) + 1 FROM course";
 	private static final String GET_ID_USER_COURSE = "SELECT NVL(MAX(id),0) + 1 FROM USER_COURSE";
-
+	private static final String GET_ID_COURSE_LOCATION = "SELECT NVL(MAX(id),0) + 1 FROM COURSE_LOCATION";
+	private static final String GET_ID_COURSE_EDUCATIONAL_LEVEL = "SELECT NVL(MAX(id),0) + 1 FROM COURSE_EDUCATIONALSTAGE";
+	private static final String GET_ID_COURSE_AGE_CATEGORY = "SELECT NVL(MAX(id),0) + 1 FROM COURSE_AGECATEGORY";
+	
 	private static final String GET_COURSES = "SELECT c.id, c.title, c.description, c.numberOfWeeks, c.cover, c.userName, c.startDate, c.endDate, ct.id courseTypeId, ct.description courseTypeDescription, c.enteredDate FROM course c, coursetype ct WHERE c.coursetypeid = ct.id";
 
 	private static final String GET_FULL_COURSES_BY_USER = "SELECT c.id, c.title, c.description, c.numberOfWeeks, c.cover, c.userName, c.startDate, c.endDate, ct.id courseTypeId, ct.description courseTypeDescription, c.enteredDate FROM course c, coursetype ct WHERE c.userName = ? and c.coursetypeid = ct.id";
@@ -64,6 +67,33 @@ public class CourseService {
 	
 	private static final String GET_NEW_ADDED_COURSES = "SELECT c.id,c.title,c.description,c.numberOfWeeks,c.cover,c.userName,c.startDate,c.endDate,ct.id courseTypeId,ct.description courseTypeDescription,c.enteredDate FROM course c, coursetype ct WHERE c.coursetypeid = ct.id and c.ENTEREDDATE > sysdate-15 ORDER BY c.ENTEREDDATE";
 	
+	private static final String INSERT_COURSE_LOCATION = "INSERT INTO course_location VALUES (?,?,?)";
+	
+	private static final String INSERT_COURSE_EDUCATIONAL_LEVEL = "INSERT INTO course_educationalstage VALUES (?,?,?)";
+	
+	private static final String INSERT_COURSE_AGE_CATEGORY = "INSERT INTO course_agecategory VALUES (?,?,?)";
+	
+	private static final String GET_RECOMMENDED_COURSES = "SELECT c.id,"+
+  "c.title,"+
+  "c.description,"+
+  "c.numberOfWeeks,"+
+  "c.cover,"+
+  "c.userName,"+
+  "c.startDate,"+
+  "c.endDate,"+
+  "ct.id courseTypeId,"+
+  "ct.description courseTypeDescription,"+
+  "c.enteredDate "+
+"FROM course c,"+
+  "coursetype ct,"+
+  "user_course_score ucc "+
+"WHERE c.coursetypeid = ct.id "+
+"AND c.id = ucc.ID "+
+"AND ucc.username = ? "
++ "AND rownum <=30"+
+"ORDER BY ucc.score desc";
+	
+	
 	public List<FullCourse> getAllCourses() {
 
 		List<FullCourse> allCourses = jdbcTemplate.query(GET_COURSES, new RowMapper<FullCourse>() {
@@ -79,7 +109,7 @@ public class CourseService {
 		return allCourses;
 	}
 
-	private int getId() {
+	public int getId() {
 		return jdbcTemplate.queryForObject(GET_ID, Integer.class);
 	}
 	
@@ -91,9 +121,21 @@ public class CourseService {
 		
 		return jdbcTemplate.queryForObject(GET_RATING_USER_COURSE, Integer.class, new Object[]{username,courseId});
 	}
+	
+	private int getIdCourseLocation(){
+		return jdbcTemplate.queryForObject(GET_ID_COURSE_LOCATION, Integer.class);
+	}
+	
+	private int getIdCourseEducationalLevel(){
+		return jdbcTemplate.queryForObject(GET_ID_COURSE_EDUCATIONAL_LEVEL, Integer.class);
+	}
+	
+	private int getIdAgeCategory(){
+		return jdbcTemplate.queryForObject(GET_ID_COURSE_AGE_CATEGORY, Integer.class);
+	}
 
 	public void insertCourse(FullCourse course) {
-		jdbcTemplate.update(INSERT_COURSE, getId(), course.getTitle(), course.getDescription(),
+		jdbcTemplate.update(INSERT_COURSE, course.getId(), course.getTitle(), course.getDescription(),
 				course.getNumberOfWeeks(), course.getCover(), course.getUserName(), course.getStartDate(),
 				course.getEndDate(), course.getCourseTypeId(),course.getEnteredDate());
 	}
@@ -242,5 +284,40 @@ public class CourseService {
 		}
 		
 		return newAddedCoursesWithDates;
+	}
+	
+	
+	public void insertCourseLocation(int courseId, List<Integer> locationids){
+		for(Integer i : locationids){
+			jdbcTemplate.update(INSERT_COURSE_LOCATION,new Object[] {getIdCourseLocation(),courseId,i});
+		}
+	}
+	
+	public void insertCourseEducationalLevel(int courseId, List<Integer> educationalLevelIds){
+		for(Integer i : educationalLevelIds){
+			jdbcTemplate.update(INSERT_COURSE_EDUCATIONAL_LEVEL,new Object[] {getIdCourseEducationalLevel(),courseId,i});
+		}
+	}
+
+	public void insertCourseAgeCategory(int courseId, List<Integer> ageCategoryIds){
+		for(Integer i : ageCategoryIds){
+			jdbcTemplate.update(INSERT_COURSE_AGE_CATEGORY,new Object[] {getIdAgeCategory(),courseId,i});
+		}
+	}
+	
+	public List<FullCourse> getRecommendedCourses(String username){
+		List<FullCourse> recommendedCourses= jdbcTemplate.query(GET_RECOMMENDED_COURSES,new Object[] {username}, new RowMapper<FullCourse>() {
+			public FullCourse mapRow(ResultSet rs, int i) throws SQLException {
+				FullCourse course = new FullCourse(rs.getInt("id"), rs.getInt("numberOfWeeks"), rs.getString("title"),
+						rs.getString("description"), rs.getBytes("cover"), rs.getString("userName"),
+						rs.getDate("startDate"), rs.getDate("endDate"), rs.getInt("courseTypeId"),
+						rs.getString("courseTypeDescription"),rs.getDate("enteredDate"));
+				return course;
+			}
+		});
+			
+		
+		
+		return recommendedCourses;
 	}
 }

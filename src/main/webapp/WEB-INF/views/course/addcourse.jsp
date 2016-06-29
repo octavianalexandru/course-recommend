@@ -97,6 +97,72 @@
 															readonly />
 													</div></td>
 											</tr>
+											
+											<tr>
+												<td>
+													<h3>People from which location might better be interested in ?</h3>
+													 
+													 	<div class="checkbox">
+ 															 <label><input type="checkbox" name="locationid" value="1">North America</label>
+														</div>
+														<div class="checkbox">
+  															<label><input type="checkbox" name="locationid" value="2">South America</label>
+														</div>
+														<div class="checkbox">
+ 															 <label><input type="checkbox" name="locationid" value="3">Europe</label>
+														</div>
+														<div class="checkbox">
+ 															 <label><input type="checkbox" name="locationid" value="4">Middle East</label>
+														</div>
+														<div class="checkbox">
+ 															 <label><input type="checkbox" name="locationid" value="5">Far East</label>
+														</div>
+													
+												</td>
+												<td>
+													<h3>People of what educational stage might find this course more useful ?</h3>
+													
+													 	<div class="checkbox">
+ 															 <label><input type="checkbox" name="educationalStageId" value="1">Primary School</label>
+														</div>
+														<div class="checkbox">
+  															<label><input type="checkbox" name="educationalStageId" value="2">Secondary School</label>
+														</div>
+														<div class="checkbox">
+ 															 <label><input type="checkbox" name="educationalStageId" value="3">Highschool</label>
+														</div>
+														<div class="checkbox">
+ 															 <label><input type="checkbox" name="educationalStageId" value="4">University</label>
+														</div>
+													
+												</td>
+												<td>
+													<h3>What age should be the people attending this course ?</h3>
+													
+													 	<div class="checkbox">
+ 															 <label><input type="checkbox" name="ageCategoryId" value="1">7-13</label>
+														</div>
+														<div class="checkbox">
+  															<label><input type="checkbox" name="ageCategoryId" value="2">14-18</label>
+														</div>
+														<div class="checkbox">
+ 															 <label><input type="checkbox" name="ageCategoryId" value="3">19-25</label>
+														</div>
+														<div class="checkbox">
+ 															 <label><input type="checkbox" name="ageCategoryId" value="4">26-35</label>
+														</div>
+														<div class="checkbox">
+ 															 <label><input type="checkbox" name="ageCategoryId" value="5">36-35</label>
+														</div>
+														<div class="checkbox">
+ 															 <label><input type="checkbox" name="ageCategoryId" value="6">46-55</label>
+														</div>
+														<div class="checkbox">
+ 															 <label><input type="checkbox" name="ageCategoryId" value="7">56+</label>
+														</div>
+													
+												</td>
+											</tr>
 										</tbody>
 									</table>
 

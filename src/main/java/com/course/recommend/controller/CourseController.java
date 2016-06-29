@@ -146,8 +146,10 @@ public class CourseController {
 			@RequestParam(value = "startDate", required = false) String startDate,
 			@RequestParam(value = "endDate", required = false) String endDate,
 			@RequestParam(value = "type", required = false) int courseTypeId,
-			@RequestParam(value = "photo", required = false) MultipartFile photo) {
-
+			@RequestParam(value = "photo", required = false) MultipartFile photo,
+			@RequestParam(value = "locationid", required = false)List<Integer> locationids,
+			@RequestParam(value = "educationalStageId", required = false)List<Integer> educationalStageIds,
+			@RequestParam(value = "ageCategoryId", required = false)List<Integer> ageCategoryIds){
 		byte[] bytes = null;
 
 		CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -170,12 +172,17 @@ public class CourseController {
 		} catch (Exception e) {
 		}
 		
-		FullCourse fullCourse = new FullCourse(0, numberOfWeeks, title, description, bytes, user.getUsername(),
+		FullCourse fullCourse = new FullCourse(courseService.getId(), numberOfWeeks, title, description, bytes, user.getUsername(),
 				new java.sql.Date(start.getTime()), new java.sql.Date(end.getTime()), courseTypeId,
 				courseTypeService.getTypeById(courseTypeId).getDescription(), new java.sql.Date(dateEntered.getTime()));
 
 		courseService.insertCourse(fullCourse);
 
+		courseService.insertCourseLocation(fullCourse.getId(),locationids);
+		courseService.insertCourseEducationalLevel(fullCourse.getId(),educationalStageIds);
+		courseService.insertCourseAgeCategory(fullCourse.getId(),ageCategoryIds);
+		
+		
 		return new ModelAndView("redirect:/dispatch");
 
 	}
@@ -350,6 +357,19 @@ public class CourseController {
 		model.setViewName("NewAdditions");
 		model.addObject("user", user);
 		
+		return model;
+	}
+	
+	@RequestMapping(value = "/recommendedforyou", method = RequestMethod.GET)
+	public ModelAndView getRecommendedCourses() {
+		ModelAndView model = new ModelAndView();
+		CustomUser user = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<FullCourse> recommendedCourses = new ArrayList<FullCourse>();
+		recommendedCourses = courseService.getRecommendedCourses(user.getUsername());
+		
+		model.addObject("recommendedcourses",recommendedCourses);
+		model.addObject("user", user);
+		model.setViewName("recommendedforyou");
 		return model;
 	}
 }
