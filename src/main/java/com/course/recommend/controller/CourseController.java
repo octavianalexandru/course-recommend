@@ -77,7 +77,7 @@ public class CourseController {
 
 		for (int i = 0; i < allCourses.size(); i++){
 			coursesByType.get(allCourses.get(i).getCourseTypeDescription()).add(allCourses.get(i));
-			//courseAverageRatings.put(allCourses.get(i).getId(), courseService.getCourseAverageRating(allCourses.get(i).getId()));
+			courseAverageRatings.put(allCourses.get(i).getId(), courseService.getCourseAverageRating(allCourses.get(i).getId()));
 			courseRatings.put(allCourses.get(i).getId(),courseService.getCourseRating(user.getUsername(),allCourses.get(i).getId()));
 			
 		}
@@ -90,7 +90,7 @@ public class CourseController {
 		
 		model.addObject("ratings",courseRatings);
 		
-		//model.addObject("averageratings", courseAverageRatings);
+		model.addObject("averageratings", courseAverageRatings);
 		
 		model.addObject("emails", emails);
 		

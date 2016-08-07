@@ -66,7 +66,7 @@
 										class="rating rating-loading" data-min="0" data-max="5"
 										data-step="1" data-show-clear="false"
 										data-show-caption="false" data-size="sm"/> 
-										<c:out value="${ratings[course.id]}"/>
+										
 									
 									
 										<input
@@ -75,16 +75,18 @@
 										type="hidden" name="${_csrf.parameterName}"
 										value="${_csrf.token}" />
 										
-										<c:out value ="${course.id}"/>
-								</form>
-								
-								<div class="col-sm-1"
+										<div class="col-sm-1"
 									style="padding-top: 10px; padding-left: 20px">
 									<button class="btn btn-xs btn-info" type="submit"
-										form="ratingform" style="margin: auto">
+										 style="margin: auto">
 										<fmt:message key="rate.it" />
 									</button>
 								</div>
+										
+										
+								</form>
+								
+								
 								</sec:authorize>
 								
 							</div>
